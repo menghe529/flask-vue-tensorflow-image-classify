@@ -29,7 +29,8 @@
 
   <div>
     <button v-on:click="draw" >drawChart</button>
-    <div id="mychart" :style="{width: '300px', height: '300px'}"></div>
+    <div id="mychart" :style="{width: '300px', height: '300px', margin: '0 auto'}"></div>
+    <product v-bind:post="this.result" ></product>
   </div>
   <div class="historyTable">
     
@@ -42,10 +43,13 @@
 </template>
 
 <script>
+import Product from "./Product"
+
   export default{
     data(){
       return{
-        result: []
+        result: [],
+        post:"---post---"
       }
     },
     mounted(){
@@ -53,72 +57,79 @@
       s.type = 'text/javascript';
       s.src = '../../static/js/Home.js';
       document.body.appendChild(s);
-      this.$emit('test')
-      console.log("hello, world!")
+
+
 
     },
     methods:{
      draw:function(){
-   			// this.count+=1
-   			//监听自定义的事件
-        // this.isShow = true
         show(mychart)
    			this.$on('increment', this.myEcharts)
    			this.$emit('increment')  //触发自定义的increment事件
    		},
       myEcharts(){
-      // console.log(result)
-      let xdata = []
-      let ydata = []
-      for(let val in result){
-        // console.log(val)
-        // console.log(Object.keys(result[val]))
-        let keys = Object.keys(result[val])
-        xdata.push(...keys)
-        ydata.push(result[val][keys])
+        //深拷贝
+        // let i=0
 
-        // ydata[val] = result[val][1]
-      }
-      // console.log(xdata)
-      // console.log(ydata)
+        // this.result = result.map(o => {
+        //   this.result['id'] = i
+        //   i = i+1
+        //   this.result['name'] = Object.keys(result[i])
+        //   this.result['probability'] = result[i][Object.keys(result[i])]
+        // })
+        // let data = this.result
+        for(let i in result){
+          let obj = {}
+          obj.id = i
+          obj.name = String(...Object.keys(result[i]))
+          obj.probability = result[i][Object.keys(result[i])]
+          this.result.push(obj)
+        }
+        let xdata = []
+        let ydata = []
+        for(let val in result){
+          let keys = Object.keys(result[val])
+          xdata.push(...keys)
+          ydata.push(result[val][keys])
+        }
+        var myChart = this.$echarts.init(document.getElementById('mychart'));
 
-		  // 基于准备好的dom，初始化echarts实例
-		  var myChart = this.$echarts.init(document.getElementById('mychart'));
-
-		  // 指定图表的配置项和数据
-		  var option = {
-			  title: {
-				  text: '图像识别 top5'
-			  },
-			  tooltip: {},
-			  legend: {
-				  data:['概率']
-			  },
-			  xAxis: {
-          data: xdata,
-          axisLabel:{
-            interval:0,
-            rotate:45,
-            margin:2,
-            textStyle:{
-              fontWeight:"bolder",
-              color:"#000000"
+        // 指定图表的配置项和数据
+        var option = {
+          title: {
+            text: '图像识别top5'
+          },
+          tooltip: {},
+          legend: {
+            data:['概率']
+          },
+          xAxis: {
+            data: xdata,
+            axisLabel:{
+              interval:0,
+              rotate:45,
+              margin:2,
+              textStyle:{
+                fontWeight:"bolder",
+                color:"#000000"
+              }
             }
-          }
-			  },
-			  yAxis: {},
-			  series: [{
-				  name: '概率',
-				  type: 'bar',
-				  data: ydata
-			  }]
-		  };
+          },
+          yAxis: {},
+          series: [{
+            name: '概率',
+            type: 'bar',
+            data: ydata
+          }]
+        };
 
-		  // 使用刚指定的配置项和数据显示图表。
-		  myChart.setOption(option);
-		  }
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+        }
+      },
+    components:{
+      Product
     }
-
   }
 </script>
 

@@ -1,7 +1,6 @@
 //========================================================================
 // Drag and drop image handling
 //========================================================================
-console.log('haha')
 var fileDrag = document.getElementById("file-drag");
 var fileSelect = document.getElementById("file-upload");
 
@@ -46,7 +45,7 @@ var mychart = document.getElementById("mychart");
 function submitImage() {
   // action for the submit button
   // console.log("submit");
-  hide(mychart);
+  // hide(mychart);
 
   if (!imageDisplay.src || !imageDisplay.src.startsWith("data")) {
     window.alert("Please select an image before submit.");
@@ -76,7 +75,7 @@ function clearImage() {
   hide(imageDisplay);
   hide(loader);
   hide(predResult);
-  hide(mychart);
+  // hide(mychart);
   show(uploadCaption);
 
   imageDisplay.classList.remove("loading");
@@ -84,7 +83,7 @@ function clearImage() {
 
 function previewFile(file) {
   // show the preview of the image
-  console.log(file.name);
+  // console.log(file.name);
   var fileName = encodeURI(file.name);
 
   var reader = new FileReader();
@@ -129,10 +128,12 @@ function predictImage(image) {
     .then(resp => {
       if (resp.ok)
         resp.json().then(data => {
-          console.log(data.result)
+          // console.log(data.result)
           displayResult(data);
           result = data.result;
-          console.log(result)
+          // console.log(result)
+          // a = "a"
+          // console.log(a)
           // drawEcharts();
         });
     })
@@ -167,8 +168,8 @@ function show(el) {
   el.classList.remove("hidden");
 }
 
-// function drawEcharts(data){
-//   console.log(data)
+// function drawEcharts(){
+//   console.log("123456789")
 // }
 
 // module.exports = {
