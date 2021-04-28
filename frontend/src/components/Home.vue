@@ -78,13 +78,28 @@ import Product from "./Product"
         //   this.result['probability'] = result[i][Object.keys(result[i])]
         // })
         // let data = this.result
+        console.log(result)
+        console.log(JSON.stringify(result))
         for(let i in result){
           let obj = {}
           obj.id = i
           obj.name = String(...Object.keys(result[i]))
           obj.probability = result[i][Object.keys(result[i])]
           this.result.push(obj)
+
+          // let map = {}
+          // map[]
         }
+        console.log("-----result-----")
+        // alert(result)
+        // console.log(JSON.parse(this.result))
+        // let json = []
+        // let map = {}
+        // for (let i=0;i<result.length;i++){
+        //   map[result[i].]
+        // }
+
+
         let xdata = []
         let ydata = []
         for(let val in result){

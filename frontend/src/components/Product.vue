@@ -21,8 +21,8 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td v-for="item in data[0]">{{item.name}}:{{item.probability}}</td>
+        <tr v-for="subdata in data">
+          <td v-for="item in subdata">{{item.data}}</td>
           <!-- <td>{{item}}</td>
           <td>{{item}}</td> -->
           <td>
@@ -37,6 +37,7 @@
 
 
 <script>
+import dataJSON from '../../../data.json'
 export default {
   name: "Product",
   props:['post'],
@@ -51,7 +52,7 @@ export default {
       name: "",
       keywords: "",
       isShow: false,
-      data: [[]]
+      data: dataJSON
       // post: that.post
     };
   },
@@ -61,6 +62,14 @@ export default {
       this.isShow = !this.isShow
       this.$emit("show")
       console.log(this.data)
+
+      console.log(dataJSON)
+      // var reader = new FileReader(); //这是核心,读取操作就是由它完成.
+      // reader.readAsText("../../../../data.json"); //读取文件的内容,也可以读取文件的URL
+      // reader.onload = function() {
+      //     //当读取完成后回调这个函数,然后此时文件的内容存储到了result中,直接操作即可
+      //     console.log(this.result);
+      // }
     },
     add() {
       // vue中已经实现了数据的双向绑定，每当我们修改了data中的数据，Vue会默认监听到

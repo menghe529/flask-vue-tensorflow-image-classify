@@ -90,7 +90,8 @@ def index():
 # def catch_all(path):
 #     return render_template("index.html")
 
-
+count = 0
+res = []
 class Prediction(Resource):
     def post(self):    
         # print("Hello, world!")
@@ -124,6 +125,33 @@ class Prediction(Resource):
             result.append(obj)
         print("-----result-----")
         print(json.dumps(result, ensure_ascii=False))
+        #  = json.dumps(result, ensure_ascii=False)
+        global count
+        global res
+
+        a = []
+        for  i in result:
+          obj = {
+              name: "",
+              probability: ""
+          }
+        #   obj.id = i.keys()
+          obj.name = i.keys()
+          obj.probability = i.values()
+          a.push(obj)
+        print("-----a-----")
+        print(a)
+        res_obj = {}
+        res_obj["id"] = count
+        res_obj["data"] = a
+        count = count + 1
+        res.append(res_obj)
+        print("-----res-----")
+        print(res)
+
+        filename="data.json"
+        with open(filename,'w+') as file_obj:
+            json.dump(res,file_obj)
         # Serialize the result, you can add additional fields
         return jsonify(result=result)
 api.add_resource(Prediction, '/api/prediction')
