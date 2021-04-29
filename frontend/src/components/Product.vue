@@ -16,18 +16,11 @@
           <th>Top3</th>
           <th>Top4</th>
           <th>Top5</th>
-          <!-- <th>Time</th> -->
-          <th>Operation</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="subdata in data">
-          <td v-for="item in subdata">{{item.data}}</td>
-          <!-- <td>{{item}}</td>
-          <td>{{item}}</td> -->
-          <td>
-            <a href="#" @click.prevent="del(item.id)">Delete</a>
-          </td>
+        <tr v-for="subdata in dataResult">
+          <td v-for="item in subdata.data">{{item.name}}:{{item.probability}}</td>
         </tr>
       </tbody>
     </table>
@@ -37,10 +30,10 @@
 
 
 <script>
-import dataJSON from '../../../data.json'
+// import dataJSON from '../../../data.json'
 export default {
   name: "Product",
-  props:['post'],
+  props:['post', 'result'],
   data() {
     let that = this
     return {
@@ -52,24 +45,14 @@ export default {
       name: "",
       keywords: "",
       isShow: false,
-      data: dataJSON
-      // post: that.post
+      dataResult: [],
+      // data: dataJSON
     };
   },
   methods: {
     table(){
-      this.data[0]=this.post
       this.isShow = !this.isShow
       this.$emit("show")
-      console.log(this.data)
-
-      console.log(dataJSON)
-      // var reader = new FileReader(); //这是核心,读取操作就是由它完成.
-      // reader.readAsText("../../../../data.json"); //读取文件的内容,也可以读取文件的URL
-      // reader.onload = function() {
-      //     //当读取完成后回调这个函数,然后此时文件的内容存储到了result中,直接操作即可
-      //     console.log(this.result);
-      // }
     },
     add() {
       // vue中已经实现了数据的双向绑定，每当我们修改了data中的数据，Vue会默认监听到
@@ -118,7 +101,23 @@ export default {
     }
   },
   mounted(){
-    // console.log("----result-----")
+    let dataJSON = require('../../../data.json')
+    for(let i=0;i<dataJSON.length;i++){
+      let obj = {}
+      obj.id = i
+      let b = []
+      for (let j in dataJSON[i].data){
+        let temp = {}
+        temp.id = j
+        temp.name = String(...Object.keys(dataJSON[i].data[j]))
+        temp.probability = dataJSON[i].data[j][Object.keys(dataJSON[i].data[j])]
+        b.push(temp)
+      }
+      obj.data = b
+      this.dataResult.push(obj)
+    }
+    console.log("-----tableResult-----")
+    console.log(this.dataResult)
   }
 };
 </script>

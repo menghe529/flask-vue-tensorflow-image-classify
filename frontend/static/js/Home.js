@@ -141,6 +141,20 @@ function predictImage(image) {
       console.log("An error occured", err.message);
       window.alert("Oops! Something went wrong.");
     });
+
+    console.log("-----prediction-history-----")
+    fetch("http://localhost:5000/api/prediction-history")
+      .then(resp => {
+        if (resp.ok)
+          resp.json().then(data => {
+            console.log(data)
+            tableResult = data
+          });
+      })
+      .catch(err => {
+        console.log("An error occured", err.message);
+        window.alert("Oops! Something went wrong.");
+      });
 }
 
 function displayImage(image, id) {

@@ -15,7 +15,7 @@
     </label>
   </div>
   <div style="margin-bottom: 2rem;">
-    <input type="button" value="Submit" class="button" onclick="submitImage();" />
+    <input type="button" value="Submit" class="button" onclick="submitImage();" v-on:click="test"/>
     <input type="button" value="Clear" class="button" onclick="clearImage();" />
   </div>
 
@@ -30,7 +30,7 @@
   <div>
     <button v-on:click="draw" >drawChart</button>
     <div id="mychart" :style="{width: '300px', height: '300px', margin: '0 auto'}"></div>
-    <product v-bind:post="this.result" ></product>
+    <product v-bind:result="this.table" ></product>
   </div>
   <div class="historyTable">
     
@@ -49,7 +49,9 @@ import Product from "./Product"
     data(){
       return{
         result: [],
-        post:"---post---"
+        post:"---post---",
+        table: [],
+        dataResult: []
       }
     },
     mounted(){
@@ -57,48 +59,25 @@ import Product from "./Product"
       s.type = 'text/javascript';
       s.src = '../../static/js/Home.js';
       document.body.appendChild(s);
-
-
-
     },
     methods:{
-     draw:function(){
+      test(){
+      },
+      draw:function(){
+
         show(mychart)
    			this.$on('increment', this.myEcharts)
    			this.$emit('increment')  //触发自定义的increment事件
    		},
       myEcharts(){
-        //深拷贝
-        // let i=0
 
-        // this.result = result.map(o => {
-        //   this.result['id'] = i
-        //   i = i+1
-        //   this.result['name'] = Object.keys(result[i])
-        //   this.result['probability'] = result[i][Object.keys(result[i])]
-        // })
-        // let data = this.result
-        console.log(result)
-        console.log(JSON.stringify(result))
         for(let i in result){
           let obj = {}
           obj.id = i
           obj.name = String(...Object.keys(result[i]))
           obj.probability = result[i][Object.keys(result[i])]
           this.result.push(obj)
-
-          // let map = {}
-          // map[]
         }
-        console.log("-----result-----")
-        // alert(result)
-        // console.log(JSON.parse(this.result))
-        // let json = []
-        // let map = {}
-        // for (let i=0;i<result.length;i++){
-        //   map[result[i].]
-        // }
-
 
         let xdata = []
         let ydata = []

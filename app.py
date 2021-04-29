@@ -129,21 +129,21 @@ class Prediction(Resource):
         global count
         global res
 
-        a = []
-        for  i in result:
-          obj = {
-              name: "",
-              probability: ""
-          }
-        #   obj.id = i.keys()
-          obj.name = i.keys()
-          obj.probability = i.values()
-          a.push(obj)
-        print("-----a-----")
-        print(a)
+        # a = []
+        # for  i in result:
+        #   obj = {
+        #       name: "",
+        #       probability: ""
+        #   }
+        # #   obj.id = i.keys()
+        #   obj.name = i.keys()
+        #   obj.probability = i.values()
+        #   a.push(obj)
+        # print("-----a-----")
+        # print(a)
         res_obj = {}
         res_obj["id"] = count
-        res_obj["data"] = a
+        res_obj["data"] = result
         count = count + 1
         res.append(res_obj)
         print("-----res-----")
@@ -155,6 +155,11 @@ class Prediction(Resource):
         # Serialize the result, you can add additional fields
         return jsonify(result=result)
 api.add_resource(Prediction, '/api/prediction')
+
+class PredictionHistory(Resource):
+    def get(self):
+        return res
+api.add_resource(PredictionHistory, '/api/prediction-history')
 
 
 class RandomNumber(Resource):
